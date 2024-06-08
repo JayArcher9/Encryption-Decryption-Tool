@@ -17,7 +17,7 @@ To run this tool locally, follow these steps:
 2. Open the `index.html` file in a web browser.
 3. The tool should load and be ready for use.
 
-Alternatively, you can visit 'https://jayarcher9.github.io/Encryption-Decryption-Tool/'.
+Alternatively, you can visit https://jayarcher9.github.io/Encryption-Decryption-Tool
 
 ## Usage
 
