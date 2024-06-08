@@ -17,7 +17,7 @@ To run this tool locally, follow these steps:
 2. Open the `index.html` file in a web browser.
 3. The tool should load and be ready for use.
 
-Alternatively, you can deploy the tool to a web server and access it remotely.
+Alternatively, you can visit 'https://jayarcher9.github.io/Encryption-Decryption-Tool/'.
 
 ## Usage
 
@@ -26,8 +26,8 @@ Alternatively, you can deploy the tool to a web server and access it remotely.
 3. If you selected the Vigenère Cipher, enter the key in the "Key" input field.
 4. Click the "Encrypt" or "Decrypt" button, depending on your desired operation.
 5. The result will be displayed in the "Result" textarea.
-6. You can copy the result to your clipboard by clicking the "Copy Result" button.
-7. To clear the result textarea, click the "Clear Result" button.
+6. You can copy the result to your clipboard by clicking the Copy icon.
+7. To clear the result textarea, click the delete icon.
 
 ## Algorithm Explanations
 
