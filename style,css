@@ -1,0 +1,138 @@
+html {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a1a1a, #333333);
+
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+}
+
+.container:hover {
+    transform: scale(1.01);
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.section {
+    margin: 20px;
+    
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    animation: slideInLeft 1s ease-in-out;
+}
+
+textarea,
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    resize: vertical;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+textarea:focus,
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease-in-out;
+    animation: fadeIn 1s ease-in-out;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+
+.main-button {
+    background-color: #555;
+    color: #fff;
+}
+
+.main-button:hover {
+    background-color: #777;
+}
+
+.algorithm-select {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease-in-out;
+    width: 100%;
+
+}
+
+.algorithm-select:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.algorithm-select option {
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 10px;
+}
+
+.output-section {
+    position: relative;
+}
+
+.output-buttons button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+}
+
+.output-buttons button:hover {
+    color: #bbb;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
