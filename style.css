@@ -136,3 +136,8 @@ button:hover {
     }
 }
 
+@media (max-width: 768px) {
+    textarea#output {
+        font-size: 14px;
+    }
+}
