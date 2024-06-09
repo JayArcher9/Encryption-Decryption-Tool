@@ -239,7 +239,6 @@ function updateKeyTextarea() {
             break;
     }
     
-    // Disable the checkbox for Vigenère algorithm
     showKeysCheckbox.disabled = algorithm === 'vigenere';
 }
 
