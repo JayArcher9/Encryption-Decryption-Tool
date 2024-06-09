@@ -131,7 +131,6 @@ button:hover {
     color: #bbb;
 }
 
-/* Animations */
 @keyframes fadeIn {
     0% {
         opacity: 0;
