@@ -1,4 +1,3 @@
-// AES Example
 function aesEncrypt(plaintext) {
     try {
         const key = CryptoJS.enc.Hex.parse('0123456789abcdef0123456789abcdef');
@@ -21,7 +20,6 @@ function aesDecrypt(ciphertext) {
     }
 }
 
-// RSA Example
 let rsaKeypair = forge.pki.rsa.generateKeyPair(2048);
 
 function rsaEncrypt(plaintext) {
@@ -49,7 +47,6 @@ function rsaDecrypt(ciphertext) {
     }
 }
 
-// Vigenère Cipher
 function vigenere(message, key, direction) {
     let keyIndex = 0;
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
