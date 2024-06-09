@@ -33,15 +33,21 @@ Alternatively, you can visit https://jayarcher9.github.io/Encryption-Decryption-
 
 ### AES (Advanced Encryption Standard)
 
-AES is a symmetric-key encryption algorithm that uses a single key for both encryption and decryption. It works by dividing the input plaintext into fixed-size blocks and applying a series of substitutions and permutations to each block based on the key. The algorithm uses a fixed key size (128, 192, or 256 bits) and operates on a fixed block size of 128 bits. In this implementation, a predefined 128-bit key and a 128-bit initialization vector (IV) are used.
+- Symmetric-key algorithm using a single key for encryption and decryption.
+- Divides plaintext into fixed-size blocks and applies substitutions and permutations based on the key.
+- Supports key sizes of 128, 192, or 256 bits with a fixed block size of 128 bits.
 
 ### RSA (Rivest-Shamir-Adleman)
 
-RSA is an asymmetric cryptographic algorithm that uses a pair of keys: a public key for encryption and a private key for decryption. It is based on the mathematical concept of factoring large prime numbers. The encryption process involves raising the plaintext to the power of the public key modulus, while the decryption process involves raising the ciphertext to the power of the private key modulus. In this implementation, a new RSA key pair is generated each time the page loads, and the public key is used for encryption, while the private key is used for decryption.
+- Asymmetric cryptographic algorithm using a public key for encryption and a private key for decryption.
+- Based on the mathematical concept of factoring large prime numbers.
+- Encryption involves raising plaintext to the power of the public key modulus; decryption involves raising ciphertext to the power of the private key modulus.
 
 ### Vigenère Cipher
 
-The Vigenère Cipher is a polyalphabetic substitution cipher that uses a keyword to encrypt and decrypt messages. It works by shifting the letters of the plaintext by different amounts based on the corresponding letter in the key. The key is repeated cyclically to match the length of the plaintext. The encryption process involves adding the position of the plaintext letter and the key letter (modulo 26) to get the ciphertext letter. The decryption process is similar but involves subtracting the key letter position from the ciphertext letter position (modulo 26) to get the plaintext letter.
+- Polyalphabetic substitution cipher using a keyword for encryption and decryption.
+- Shifts plaintext letters based on the corresponding letter in the cyclically repeated key.
+- Encryption involves adding plaintext letter position and key letter position (modulo 26); decryption involves subtracting key letter position from ciphertext letter position (modulo 26).
 
 ## Technologies Used
 
