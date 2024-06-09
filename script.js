@@ -1,7 +1,22 @@
+let aesKey, aesIV;
+
+function generateAESKey() {
+    return crypto.getRandomValues(new Uint8Array(16));
+}
+
+function generateAESIV() {
+    return crypto.getRandomValues(new Uint8Array(16));
+}
+
 function aesEncrypt(plaintext) {
     try {
-        const key = CryptoJS.enc.Hex.parse('0123456789abcdef0123456789abcdef');
-        const iv = CryptoJS.enc.Hex.parse('abcdef9876543210abcdef9876543210');
+        if (!aesKey || !aesIV) {
+            aesKey = generateAESKey();
+            aesIV = generateAESIV();
+        }
+
+        const key = CryptoJS.lib.WordArray.create(aesKey);
+        const iv = CryptoJS.lib.WordArray.create(aesIV);
         const encrypted = CryptoJS.AES.encrypt(plaintext, key, { iv: iv, mode: CryptoJS.mode.CFB });
         return encrypted.toString();
     } catch (error) {
@@ -11,8 +26,12 @@ function aesEncrypt(plaintext) {
 
 function aesDecrypt(ciphertext) {
     try {
-        const key = CryptoJS.enc.Hex.parse('0123456789abcdef0123456789abcdef');
-        const iv = CryptoJS.enc.Hex.parse('abcdef9876543210abcdef9876543210');
+        if (!aesKey || !aesIV) {
+            throw new Error('AES key and IV not generated');
+        }
+
+        const key = CryptoJS.lib.WordArray.create(aesKey);
+        const iv = CryptoJS.lib.WordArray.create(aesIV);
         const decrypted = CryptoJS.AES.decrypt(ciphertext, key, { iv: iv, mode: CryptoJS.mode.CFB });
         return decrypted.toString(CryptoJS.enc.Utf8);
     } catch (error) {
@@ -75,7 +94,7 @@ function processText(action) {
     const inputText = document.getElementById('input-text').value;
     const algorithm = document.getElementById('algorithm').value;
     let result = '';
- 
+
     try {
         switch (algorithm) {
             case 'aes':
@@ -105,23 +124,12 @@ function processText(action) {
     } catch (error) {
         document.getElementById('output').value = 'Error: ' + error.message;
     }
- }
- 
- document.getElementById('algorithm').addEventListener('change', function() {
-    const keySection = document.getElementById('key-section');
-    if (this.value === 'vigenere') {
-        keySection.style.display = 'block';
-    } else {
-        keySection.style.display = 'none';
-    }
- });
-
-
+}
 
 function copyResult() {
     const outputText = document.getElementById('output');
     outputText.select();
-    outputText.setSelectionRange(0, 99999); // For mobile devices
+    outputText.setSelectionRange(0, 99999); 
     navigator.clipboard.writeText(outputText.value)
         .then(() => alert('Result copied to clipboard!'))
         .catch(() => alert('Failed to copy result to clipboard.'));
@@ -130,6 +138,11 @@ function copyResult() {
 function clearResult() {
     document.getElementById('output').value = '';
 }
+
+window.addEventListener('load', () => {
+    aesKey = generateAESKey();
+    aesIV = generateAESIV();
+});
 
 document.getElementById('algorithm').addEventListener('change', function() {
     const keySection = document.getElementById('key-section');
