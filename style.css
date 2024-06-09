@@ -75,7 +75,7 @@ button:hover {
     background-color: #777;
 }
 
-
+/* Main buttons */
 .main-button {
     background-color: #555;
     color: #fff;
@@ -85,6 +85,7 @@ button:hover {
     background-color: #777;
 }
 
+/* Algorithm Select */
 .algorithm-select {
     padding: 10px;
     font-size: 16px;
@@ -108,9 +109,12 @@ button:hover {
     padding: 10px;
 }
 
+/* Output Section */
 .output-section {
     position: relative;
 }
+
+
 
 .output-buttons button {
     background-color: transparent;
@@ -127,6 +131,7 @@ button:hover {
     color: #bbb;
 }
 
+/* Animations */
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -136,8 +141,4 @@ button:hover {
     }
 }
 
-@media (max-width: 768px) {
-    textarea#output {
-        font-size: 14px;
-    }
-}
+

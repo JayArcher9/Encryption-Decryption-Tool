@@ -8,11 +8,28 @@ function generateAESIV() {
     return crypto.getRandomValues(new Uint8Array(16));
 }
 
+function saveAESKeyAndIV() {
+    localStorage.setItem('aesKey', JSON.stringify(Array.from(aesKey)));
+    localStorage.setItem('aesIV', JSON.stringify(Array.from(aesIV)));
+}
+
+function loadAESKeyAndIV() {
+    const storedKey = localStorage.getItem('aesKey');
+    const storedIV = localStorage.getItem('aesIV');
+    if (storedKey && storedIV) {
+        aesKey = new Uint8Array(JSON.parse(storedKey));
+        aesIV = new Uint8Array(JSON.parse(storedIV));
+    } else {
+        aesKey = generateAESKey();
+        aesIV = generateAESIV();
+        saveAESKeyAndIV();
+    }
+}
+
 function aesEncrypt(plaintext) {
     try {
         if (!aesKey || !aesIV) {
-            aesKey = generateAESKey();
-            aesIV = generateAESIV();
+            loadAESKeyAndIV();
         }
 
         const key = CryptoJS.lib.WordArray.create(aesKey);
@@ -27,7 +44,7 @@ function aesEncrypt(plaintext) {
 function aesDecrypt(ciphertext) {
     try {
         if (!aesKey || !aesIV) {
-            throw new Error('AES key and IV not generated');
+            loadAESKeyAndIV();
         }
 
         const key = CryptoJS.lib.WordArray.create(aesKey);
@@ -39,7 +56,24 @@ function aesDecrypt(ciphertext) {
     }
 }
 
-let rsaKeypair = forge.pki.rsa.generateKeyPair(2048);
+let rsaKeypair = loadRSAKeypair() || forge.pki.rsa.generateKeyPair(2048);
+
+function saveRSAKeypair() {
+    localStorage.setItem('rsaPublicKey', forge.pki.publicKeyToPem(rsaKeypair.publicKey));
+    localStorage.setItem('rsaPrivateKey', forge.pki.privateKeyToPem(rsaKeypair.privateKey));
+}
+
+function loadRSAKeypair() {
+    const publicKeyPem = localStorage.getItem('rsaPublicKey');
+    const privateKeyPem = localStorage.getItem('rsaPrivateKey');
+    if (publicKeyPem && privateKeyPem) {
+        return {
+            publicKey: forge.pki.publicKeyFromPem(publicKeyPem),
+            privateKey: forge.pki.privateKeyFromPem(privateKeyPem)
+        };
+    }
+    return null;
+}
 
 function rsaEncrypt(plaintext) {
     try {
@@ -139,16 +173,89 @@ function clearResult() {
     document.getElementById('output').value = '';
 }
 
+function copyKeys() {
+    const keys = {
+        aesKey: Array.from(aesKey),
+        aesIV: Array.from(aesIV),
+        rsaPublicKey: forge.pki.publicKeyToPem(rsaKeypair.publicKey),
+        rsaPrivateKey: forge.pki.privateKeyToPem(rsaKeypair.privateKey)
+    };
+    navigator.clipboard.writeText(JSON.stringify(keys))
+        .then(() => alert('Keys copied to clipboard!'))
+        .catch(() => alert('Failed to copy keys to clipboard.'));
+}
+
+function uploadKeys() {
+    const keysInput = document.getElementById('key').value;
+    try {
+        const keys = JSON.parse(keysInput);
+        aesKey = new Uint8Array(keys.aesKey);
+        aesIV = new Uint8Array(keys.aesIV);
+        rsaKeypair = {
+            publicKey: forge.pki.publicKeyFromPem(keys.rsaPublicKey),
+            privateKey: forge.pki.privateKeyFromPem(keys.rsaPrivateKey)
+        };
+        saveAESKeyAndIV();
+        saveRSAKeypair();
+        alert('Keys successfully uploaded!');
+    } catch (error) {
+        alert('Failed to upload keys. Make sure the format is correct.');
+    }
+}
+
 window.addEventListener('load', () => {
-    aesKey = generateAESKey();
-    aesIV = generateAESIV();
+    loadAESKeyAndIV();
+    rsaKeypair = loadRSAKeypair() || forge.pki.rsa.generateKeyPair(2048);
+    const algorithm = document.getElementById('algorithm').value;
+    const keySection = document.getElementById('key-section');
+    
+    if (algorithm === 'vigenere' && keySection.style.display !== 'block') {
+        keySection.style.display = 'block';
+    }
 });
+
+
+function updateKeyTextarea() {
+    const algorithm = document.getElementById('algorithm').value;
+    const showKeysCheckbox = document.getElementById('show-keys-checkbox');
+    const keyTextarea = document.getElementById('key');
+    
+    switch (algorithm) {
+        case 'aes':
+            loadAESKeyAndIV();
+            keyTextarea.value = showKeysCheckbox.checked ? `AES Key: ${Array.from(aesKey).join(', ')}\nAES IV: ${Array.from(aesIV).join(', ')}` : '';
+            keyTextarea.placeholder = showKeysCheckbox.checked ? "AES Key and IV are displayed. Uncheck 'Show Keys' to hide." : "To view keys, click 'Show Keys' checkbox";
+            break;
+        case 'rsa':
+            rsaKeypair = loadRSAKeypair() || forge.pki.rsa.generateKeyPair(2048);
+            saveRSAKeypair();
+            keyTextarea.value = showKeysCheckbox.checked ? `RSA Public Key:\n${forge.pki.publicKeyToPem(rsaKeypair.publicKey)}\n\nRSA Private Key:\n${forge.pki.privateKeyToPem(rsaKeypair.privateKey)}` : '';
+            keyTextarea.placeholder = showKeysCheckbox.checked ? "RSA Public and Private Keys are displayed. Uncheck 'Show Keys' to hide." : "To view keys, click 'Show Keys' checkbox";
+            break;
+        case 'vigenere':
+            keyTextarea.value = '';
+            keyTextarea.placeholder = 'Enter Vigenère Key Manually';
+            showKeysCheckbox.checked = false;
+            break;
+    }
+    
+    // Disable the checkbox for Vigenère algorithm
+    showKeysCheckbox.disabled = algorithm === 'vigenere';
+}
+
+window.addEventListener('load', updateKeyTextarea);
+document.getElementById('algorithm').addEventListener('change', updateKeyTextarea);
+document.getElementById('show-keys-checkbox').addEventListener('change', updateKeyTextarea);
+
 
 document.getElementById('algorithm').addEventListener('change', function() {
     const keySection = document.getElementById('key-section');
-    if (this.value === 'vigenere') {
+    if (this.value === 'vigenere' || this.value === 'aes' || this.value === 'rsa') {
         keySection.style.display = 'block';
     } else {
         keySection.style.display = 'none';
     }
 });
+
+document.getElementById('copy-keys-button').addEventListener('click', copyKeys);
+document.getElementById('upload-keys-button').addEventListener('click', uploadKeys);

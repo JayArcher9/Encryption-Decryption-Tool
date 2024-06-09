@@ -25,9 +25,11 @@
                 <option value="vigenere">Vigenère Cipher</option>
             </select>
         </div>
-        <div class="section" id="key-section" style="display: none;">
+        <div class="section" id="key-section">
             <label for="key">Key:</label>
-            <input type="text" id="key">
+            <textarea id="key" rows="5" placeholder="To view keys, click 'Show Keys' checkbox"></textarea>
+            <input type="checkbox" id="show-keys-checkbox">
+            <label for="show-keys-checkbox" id="show-keys-checkbox">Show Keys</label>
         </div>
         <div class="section">
             <button onclick="processText('encrypt')" class="main-button">Encrypt</button>
